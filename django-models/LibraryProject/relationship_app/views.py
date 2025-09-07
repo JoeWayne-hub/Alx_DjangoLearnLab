@@ -20,13 +20,16 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
-# User Registration View
+# Registration view using Django's UserCreationForm
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the new user to the database
-            return redirect('login')  # Redirect to login page after successful registration
+            form.save()  # Save the new user
+            return redirect('login')  # Redirect to login after successful registration
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+# The login view is handled by Django’s built-in LoginView
+# The logout view is handled by Django’s built-in LogoutView
