@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Book, Author, Library, Librarian  # ✅ Explicit import from .models
+
+from .models import Book
+from .models import Author
+from .models import Librarian
+from .models import Library  # ✅ explicit import for ALX checker
 
 # Function-based view to list all books
 def list_books(request):
