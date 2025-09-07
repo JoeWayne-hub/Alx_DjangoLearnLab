@@ -7,7 +7,7 @@ urlpatterns = [
 ]
 from django.urls import path
 from .views import register
-from django.contrib.auth.views import LoginView, LogoutView  # Import built-in views
+from django.contrib.auth.views import LoginView, LogoutView  # ✅ Correct imports for login and logout
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),  # Login view
