@@ -19,8 +19,12 @@ urlpatterns = [
     path('librarian/', views.librarian_view, name='librarian_view'),
     path('member/', views.member_view, name='member_view'),
 ]
+from django.urls import path
+from . import views  # Import views explicitly
+from django.contrib.auth.decorators import permission_required
+
 urlpatterns = [
-    path('book/add/', views.add_book, name='add_book'),
-    path('book/edit/<int:pk>/', views.edit_book, name='edit_book'),
-    path('book/delete/<int:pk>/', views.delete_book, name='delete_book'),
+    path('book/add/', views.add_book, name='add_book'),  # Path for adding a book
+    path('book/edit/<int:pk>/', views.edit_book, name='edit_book'),  # Path for editing a book
+    path('book/delete/<int:pk>/', views.delete_book, name='delete_book'),  # Path for deleting a book
 ]
