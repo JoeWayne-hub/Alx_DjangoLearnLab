@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 AUTH_USER_MODEL = 'users.CustomUser'  # Referencing your custom user model
+AUTH_USER_MODEL = 'bookshelf.CustomUser'  # 'bookshelf' is your app name
 
 from pathlib import Path
 
