@@ -155,3 +155,25 @@ CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
 CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com")
 # CSRF_COOKIE_SECURE = True
 # Ensures CSRF cookies are only sent over HTTPS to prevent interception.
+# ✅ Enforce HTTPS by redirecting all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True  
+
+# ✅ HTTP Strict Transport Security (HSTS) - force HTTPS in browsers
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+# ✅ Ensure cookies are only sent via HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+# ✅ Clickjacking protection
+X_FRAME_OPTIONS = "DENY"
+
+# ✅ Prevent MIME-type sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# ✅ Enable browser XSS protection
+SECURE_BROWSER_XSS_FILTER = True
+# Redirect all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True
