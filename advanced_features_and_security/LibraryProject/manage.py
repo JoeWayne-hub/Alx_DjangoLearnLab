@@ -16,3 +16,5 @@ if __name__ == "_main_":
             "available on your PYTHONPATH environment variable?"
         )
     execute_from_command_line(sys.argv)
+from django.template.loader import get_template
+get_template("bookshelf/form_example.html")
