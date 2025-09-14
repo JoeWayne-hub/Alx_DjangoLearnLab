@@ -1,5 +1,6 @@
 
 # Create your models here.
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class Book(models.Model):
@@ -36,3 +37,21 @@ class CustomUser(AbstractUser):
 
     # Custom Manager
     objects = CustomUserManager()
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    description = models.TextField()
+    published_date = models.DateField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        ]
+        
+    def __str__(self):
+        return self.title

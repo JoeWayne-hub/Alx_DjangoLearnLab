@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # custom app
     'bookshelf',
     'relationship_app',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -127,3 +129,29 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False   # Set to True only in local development
+
+ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1", "localhost"]
+
+# Browser security settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Cookies should only be sent over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# HSTS (forces HTTPS, optional in dev, recommended in prod)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Content Security Policy (we'll set via middleware later)
+# Content Security Policy (reduces XSS risk)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com")
+# CSRF_COOKIE_SECURE = True
+# Ensures CSRF cookies are only sent over HTTPS to prevent interception.
