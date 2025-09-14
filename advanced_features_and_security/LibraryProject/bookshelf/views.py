@@ -15,3 +15,18 @@ def book_search(request):
             Q(title__icontains=query) | Q(author__icontains=query)
         )
     return render(request, "bookshelf/book_list.html", {"results": results, "query": query})
+from .forms import ExampleForm
+
+def example_form_view(request):
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Normally, process the data here
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+            # Just return success page or re-render form with message
+            return render(request, "bookshelf/form_example.html", {"form": form, "success": True})
+    else:
+        form = ExampleForm()
+    return render(request, "bookshelf/form_example.html", {"form": form})
