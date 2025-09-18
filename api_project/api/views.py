@@ -21,3 +21,18 @@ class BookList(generics.ListAPIView):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from .models import Book
+from .serializers import BookSerializer
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Only logged-in users can access
+
+    # Example: if you want only admins to delete
+    def get_permissions(self):
+        if self.action == 'destroy':
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
