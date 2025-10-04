@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
-from .models import Post
+from .models import Post, Tag
 from .models import Comment
 
 class CustomUserCreationForm(UserCreationForm):
@@ -34,19 +34,20 @@ class ProfileForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(required=False, help_text="Add tags separated by commas")
+
     class Meta:
         model = Post
-        fields = ["title", "content"]  # author set automatically
+        fields = ['title', 'content', 'tags']
 
-class CommentForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), max_length=2000)
-
-    class Meta:
-        model = Comment
-        fields = ['content']
-
-    def clean_content(self):
-        data = self.cleaned_data['content'].strip()
-        if not data:
-            raise forms.ValidationError("Comment cannot be empty.")
-        return data
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+        # handle tags
+        tags_str = self.cleaned_data.get('tags', '')
+        tag_names = [name.strip() for name in tags_str.split(',') if name.strip()]
+        for name in tag_names:
+            tag, created = Tag.objects.get_or_create(name=name)
+            instance.tags.add(tag)
+        return instance
