@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from .models import Post, Tag
 from .models import Comment
+from taggit.forms import TagWidget
 
 class CustomUserCreationForm(UserCreationForm):
     """
@@ -39,6 +40,12 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
+        
+
+        widgets = {
+            'tags': TagWidget(),
+         }
+
 
     def save(self, commit=True):
         instance = super().save(commit=False)
