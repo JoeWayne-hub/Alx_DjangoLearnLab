@@ -54,5 +54,9 @@
     No tags.
     {% endfor %}
 </p>
-
+<p><strong>Tags:</strong>
+    {% for tag in post.tags.all %}
+    <a href="{% url 'tag-posts' tag.slug %}">{{ tag.name }}</a>
+    {% endfor %}
+</p>
 {% endblock %}

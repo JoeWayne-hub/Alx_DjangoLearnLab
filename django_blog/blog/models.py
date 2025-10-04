@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.urls import reverse
 from django.conf import settings
+from taggit.managers import TaggableManager
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -22,6 +24,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
