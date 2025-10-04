@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import Profile
+from .models import Post, Comment
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'user_role')  
-# Register your models here.
+    admin.site.register(Post)
+    admin.site.register(Comment)

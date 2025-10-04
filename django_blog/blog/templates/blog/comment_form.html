@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h2>{% if form.instance.pk %}Edit comment{% else %}Add a comment{% endif %}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+{% if post %}
+<p><a href="{% url 'post-detail' post.pk %}">Back to post</a></p>
+{% elif object %}
+<p><a href="{% url 'post-detail' object.post.pk %}">Back to post</a></p>
+{% endif %}
+{% endblock %}
