@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Home - My Blog{% endblock %}
+
+{% block content %}
+<h2>Recent Posts</h2>
+<ul>
+    {% for post in posts %}
+    <li>
+        <strong>{{ post.title }}</strong> by {{ post.author.username }} <br>
+        {{ post.content|truncatewords:20 }}
+    </li>
+    {% empty %}
+    <p>No posts available yet.</p>
+    {% endfor %}
+</ul>
+{% endblock %}
