@@ -9,6 +9,7 @@ from django.urls import reverse_lazy, reverse
 from .models import Post, Comment
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import CommentForm
 
 def register_view(request):
     """
@@ -95,7 +96,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def comment_create(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+    post = get_object_or_404 (Post, pk=post_pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
