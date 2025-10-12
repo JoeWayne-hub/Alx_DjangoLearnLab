@@ -33,3 +33,19 @@ git clone https://github.com/<your-username>/Alx_DjangoLearnLab.git
 POST /api/posts/
 Headers: Authorization: Token <token>
 Body: { "title": "Hello", "content": "..." }
+### Follow / Feed APIs
+
+- Follow/unfollow user:
+  POST /api/accounts/follow/<user_id>/  (follow)
+  DELETE /api/accounts/follow/<user_id>/  (unfollow)
+  Requires Authentication
+
+- List following:
+  GET /api/accounts/following/
+
+- List followers:
+  GET /api/accounts/followers/
+
+- Feed:
+  GET /api/posts/feed/
+  Returns posts from users you follow ordered by created_at desc.
