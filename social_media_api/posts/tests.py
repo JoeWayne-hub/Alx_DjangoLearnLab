@@ -5,9 +5,30 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIClient
 from django.contrib.auth import get_user_model
-from .models import Post, Comment
+from .models import Post, Comment, Like
+from notifications.models import Notification
 
 User = get_user_model()
+
+class LikeNotificationTest(APITestCase):
+    def setUp(self):
+        self.u1 = User.objects.create_user(username='u1', password='p')
+        self.u2 = User.objects.create_user(username='u2', password='p')
+        self.post = Post.objects.create(author=self.u2, title='T', content='C')
+        self.client.login(username='u1', password='p')
+
+    def test_like_creates_notification(self):
+        url = reverse('post-like', args=[self.post.id])
+        resp = self.client.post(url)
+        self.assertEqual(resp.status_code, 201)
+        self.assertTrue(Like.objects.filter(post=self.post, user=self.u1).exists())
+        self.assertTrue(Notification.objects.filter(recipient=self.u2, actor=self.u1, verb__icontains='liked').exists())
+
+    def test_unlike_removes(self):
+        self.client.post(reverse('post-like', args=[self.post.id]))
+        resp = self.client.post(reverse('post-unlike', args=[self.post.id]))
+        self.assertEqual(resp.status_code, 200)
+        self.assertFalse(Like.objects.filter(post=self.post, user=self.u1).exists())
 
 class PostsAPITestCase(APITestCase):
     def setUp(self):

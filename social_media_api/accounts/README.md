@@ -49,3 +49,10 @@ Body: { "title": "Hello", "content": "..." }
 - Feed:
   GET /api/posts/feed/
   Returns posts from users you follow ordered by created_at desc.
+### Likes
+- POST /api/posts/<pk>/like/ — like a post (auth)
+- POST /api/posts/<pk>/unlike/ — unlike a post (auth)
+
+### Notifications
+- GET /api/notifications/ — list notifications (auth)
+- POST /api/notifications/<id>/mark-read/ — mark as read (auth)
