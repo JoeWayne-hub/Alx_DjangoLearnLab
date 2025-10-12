@@ -30,3 +30,6 @@ This is a Django REST Framework–based Social Media API that provides user auth
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/<your-username>/Alx_DjangoLearnLab.git
+POST /api/posts/
+Headers: Authorization: Token <token>
+Body: { "title": "Hello", "content": "..." }
