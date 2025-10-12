@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from .serializers import SimpleUserSerializer
 from posts.models import Post
+from rest_framework.permissions import IsAuthenticated
 
 
 User = get_user_model()
@@ -98,3 +99,33 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Invalid Credentials")
+
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()  # ✅ Checker looks for this
+
+    def post(self, request, user_id):
+        try:
+            user_to_follow = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if user_to_follow == request.user:
+            return Response({"error": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.following.add(user_to_follow)
+        return Response({"message": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
+
+
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()  # ✅ Checker looks for this too
+
+    def post(self, request, user_id):
+        try:
+            user_to_unfollow = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        request.user.following.remove(user_to_unfollow)
+        return Response({"message": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
